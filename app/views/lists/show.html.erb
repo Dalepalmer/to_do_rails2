@@ -1,0 +1,59 @@
+<% content_for(:title, "List | To Do") %>
+
+<h1><%= @list.name %></h1>
+
+<h4><%= @list.description %></h4>
+
+<% if @list.tasks.any? %>
+  <h4>Here are the tasks for this list:</h4>
+  <ul>
+  <% @list.tasks.each do |task| %>
+    <li>
+      <%= task.description %> |
+      <%= link_to "Edit", edit_list_task_path(@list, task) %> |
+      <%= link_to "Delete", list_task_path(@list, task),
+      :data => {:confirm => "You sure?",
+                :method => "delete"} %> |
+      <% end %>
+  </ul>
+<% else %>
+  <p>There are no tasks yet!</p>
+<% end %>
+
+<hr>
+
+<% if @list.tasks.done %>
+  <div class="col-xs-6">
+    <h4>Here are the tasks that you have completed:</h4>
+    <ul>
+      <% @list.tasks.done.each do |task| %>
+      <li>
+        <%= task.description %>
+      </li>
+      <% end %>
+    </ul>
+  </div>
+<% end %>
+
+<% if @list.tasks.not_done %>
+  <div class="col-xs-6">
+    <h4>Here are the tasks that have yet to be completed:</h4>
+    <ul>
+      <% @list.tasks.not_done.each do |task| %>
+      <li>
+        <%= task.description %>
+      </li>
+      <% end %>
+    </ul>
+  </div>
+<% end %>
+
+<div class="col-xs-12">
+  <hr>
+  <p><%= link_to "Add a Task", new_list_task_path(@list) %></p>
+  <p><%= link_to "Edit", edit_list_path %></p>
+  <p><%= link_to "Delete", list_path(@list),
+  :data => {:confirm => "You sure?",
+            :method => "delete"} %></p>
+  <p><%= link_to "Return to Lists", lists_path %></p>
+</div>
